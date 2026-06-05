@@ -3,7 +3,12 @@ import Card from '../Card.astro'
 import { LINKS } from '../../lib/constants'
 ---
 
-<Card colSpan="md:col-span-1" rowSpan="md:row-span-2" title="Youtube" href={LINKS.youtube}>
+<Card
+  colSpan="md:col-span-1 lg:col-start-2"
+  rowSpan="md:row-span-2 lg:row-span-3 lg:row-start-[8]"
+  title="Youtube"
+  href={LINKS.youtube}
+>
   <div class="flex h-full w-full flex-col">
     <div>
       <img

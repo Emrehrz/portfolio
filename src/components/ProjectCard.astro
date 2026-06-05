@@ -1,24 +1,51 @@
 ---
 import { Card as ShadcnCard } from './ui/card'
+import { ArrowUpRight } from 'lucide-react'
 
-const { as: Tag = 'a', class: className, href, heading, subheading, imagePath, altText } = Astro.props
+const {
+  as: Tag = 'a',
+  class: className,
+  href,
+  heading,
+  subheading,
+  imagePath,
+  altText,
+} = Astro.props
+
+const isLink = Tag === 'a' && Boolean(href)
 ---
 
-<Tag href={href} class={`${className}`} `>
+<Tag
+  href={href}
+  target={isLink ? '_blank' : undefined}
+  rel={isLink ? 'noopener noreferrer' : undefined}
+  class={`group block ${className ?? ''}`}
+>
   <ShadcnCard
-    className={`transfor-y-[-40%] align-start perspective-1200 group relative flex-none transform justify-start overflow-hidden shadow-lg transition duration-75 ease-in-out ${href ? 'cursor-pointer hover:border-primary' : ''} `}
+    className={`flex h-full flex-col overflow-hidden border bg-card shadow-sm transition duration-200 ease-out sm:flex-row ${
+      isLink ? 'cursor-pointer hover:-translate-y-0.5 hover:border-primary hover:shadow-lg' : ''
+    }`}
   >
-    <img
-      src={imagePath}
-      alt={altText}
-      class="h-48 w-full rounded-2xl rounded-bl-none rounded-br-none object-cover"
-      loading="eager"
-    />
-    <div class="flex flex-col gap-y-0.5 px-5 py-4">
-      <h1 class="text-lg font-medium">{heading}</h1>
-      <h2 class="text-muted-foreground">{subheading}</h2>
+    <div class="relative aspect-[16/10] w-full overflow-hidden sm:aspect-auto sm:w-2/5 sm:min-h-[220px]">
+      <img
+        src={imagePath}
+        alt={altText}
+        class="h-full w-full object-cover object-top transition duration-300 ease-out group-hover:scale-[1.03]"
+        loading="lazy"
+      />
     </div>
-
+    <div class="flex flex-1 flex-col gap-y-3 p-5 sm:p-6">
+      <h3 class="text-xl font-semibold leading-tight tracking-tight">{heading}</h3>
+      <p class="text-sm leading-relaxed text-muted-foreground">{subheading}</p>
+      {
+        isLink && (
+          <span class="mt-auto inline-flex items-center gap-1 pt-2 text-sm font-medium text-primary">
+            Siteyi ziyaret et
+            <ArrowUpRight className="h-4 w-4 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </span>
+        )
+      }
+    </div>
     <slot />
   </ShadcnCard>
 </Tag>
